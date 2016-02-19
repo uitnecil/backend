@@ -5,11 +5,11 @@ var gm = require('gm').subClass({imageMagick: true}); //
 var math = require('math');
 
 
-var pathoffiles = "f:/temp/Poze/";
+var pathoffiles = "/home/liz/Pictures";
 var myfiles = [];
 var contentsofdir;
 var a;
-dir = __dirname + '\\imgs\\'
+dir = __dirname + '/imgs/'
 
 var router = express.Router();
 
