@@ -5,7 +5,7 @@ var gm = require('gm').subClass({imageMagick: true}); //
 var math = require('math');
 
 
-var pathoffiles = "/home/liz/Pictures";
+var pathoffiles = "public/Pictures/";
 var myfiles = [];
 var contentsofdir;
 var a;
@@ -72,7 +72,7 @@ function _getmecontentofmypath(callback) {
 function _pushmydata(fileData, id, a, callback) {
     var temp;
     myfiles.push(fileData);
-    temp = '<a href="file:///' + pathoffiles + contentsofdir[id] + '">' + contentsofdir[id] + '</a>';
+    temp = '<a href="http://localhost:3000/Pictures/' + contentsofdir[id] + '">' + contentsofdir[id] + '</a>';
     a += id + ' - [' + fileData.filecontent.toString().substring(1, 10) + ']' + " - " + temp + " - " + fileData.filedate + '<br>';
     callback(a)
 }
