@@ -1,0 +1,9 @@
+create user lice identified by Parolavietii9 default tablespace users temporary tablespace temp;
+
+grant create session to lice;
+grant create table to lice;
+grant create sequence to lice;
+grant create trigger to lice;
+
+
+alter user lice quota unlimited on users;

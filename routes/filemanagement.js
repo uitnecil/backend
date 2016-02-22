@@ -27,12 +27,13 @@ router.get('/', function (req, res, next) {
                         return console.dir(arguments)
                     }
                     //this.resize(math.round(size.width / 20), math.round(size.height / 20), '!')
-                    this.resize(math.round(size.width * (72 * 100 / size.height) / 100), math.round(72), '!') // calculate the corect height scaled based on the 24 px width
-                    this.quality(80)
-                    this.write(path.normalize(dir + content.filename.toString().split('.')[0] + '_redim.jpg'), function (err) {
-                        if (err) return console.dir(arguments)
-                        console.log(this.outname + " created  ::  " + arguments[3])
-                    });
+                    //uncomment this to convert photos!!!!
+                    //this.resize(math.round(size.width * (72 * 100 / size.height) / 100), math.round(72), '!') // calculate the corect height scaled based on the 24 px width
+                    //this.quality(80)
+                    //this.write(path.normalize(dir + content.filename.toString().split('.')[0] + '_redim.jpg'), function (err) {
+                    //    if (err) return console.dir(arguments)
+                    //    console.log(this.outname + " created  ::  " + arguments[3])
+                    //});
                 });
         })
         //re-init myfiles array with null
