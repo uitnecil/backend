@@ -3,32 +3,19 @@ var morgan = require('morgan');
 var config = require('./config');
 var jwt = require('jsonwebtoken');
 
+module.exports = {
+    getProtectedData: getProtectedData
+};
 
-function get(req, res, next) {
-    var token;
-    var payLoad;
-    if (!req.headers.authorization) {
-        return res.status(401).send({message: 'You are not authorized'});
-    }
-    token = req.headers.authorization.split(' ')[1];
 
-    try {
-        payLoad = jwt.verify(token, config.jwtSecretKey);
-    } catch (e) {
-        if (e.name == 'TokenExpiredError') {
-            res.status(401).send({message: 'Token expired' + e.name});
-        } else {
-            res.status(401).send({message: 'Authorization failed' + e.name});
-        }
-        return;
-    }
+function getProtectedData(req, res, next) {
 
     //connect to database if the authentication worked
     oracledb.getConnection(config.database, function (err, connection) {
         if (err) {
             return next(err);
         }
-        connection.execute('select column1 as "column1" ' + 'from jsao_protected_things ',
+        connection.execute('select column1 as "column1" from jsao_protected_things ',
             {},//no binds')
             {outFormat: oracledb.OBJECT},
             function (err, results) {
@@ -52,5 +39,3 @@ function get(req, res, next) {
         )
     })
 }
-
-module.exports.get = get;

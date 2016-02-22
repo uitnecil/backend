@@ -11,6 +11,7 @@ var routes = require('./routes/index');
 var filemanagement = require('./routes/filemanagement');
 var publicThings = require('./routes/publicThings');
 var users = require('./routes/users');
+var authModule = require('./routes/auth');
 //protected routes
 var protectedThings = require('./routes/protectedThings');
 var login = require('./routes/login');
@@ -31,7 +32,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //express routing
 app.use('/', routes);
-app.use('/filemanagement', filemanagement);
+//app.use('/filemanagement', authModule.auth(), filemanagement);
+
+//router1 = express.Router();
+
+//app.use('/fm', router1);
 
 router = express.Router();
 
@@ -39,14 +44,14 @@ router = express.Router();
 //routes NO auth required
 router.get('/public_things', publicThings.get);
 router.post('/users', users.post);
+router.get('/filemanagement', authModule.auth(), filemanagement);
 
 //routes auth required
-router.get('/protected_things', protectedThings.get);
+router.get('/protected_things', authModule.auth(), protectedThings.getProtectedData);
+router.get('/protected_things2', authModule.auth('ADMIN'), protectedThings.getProtectedData);
 router.post('/login', login.post);
 
 app.use('/api', router);
-
-
 
 
 
