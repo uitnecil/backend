@@ -32,19 +32,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //express routing
 app.use('/', routes);
-//app.use('/filemanagement', authModule.auth(), filemanagement);
-
-//router1 = express.Router();
-
-//app.use('/fm', router1);
+app.use('/filemanagement', filemanagement);
 
 router = express.Router();
-
 
 //routes NO auth required
 router.get('/public_things', publicThings.get);
 router.post('/users', users.post);
-router.get('/filemanagement', authModule.auth(), filemanagement);
+//router.get('/filemanagement', filemanagement); // TODO : add authentication for this route (need massive changes)
 
 //routes auth required
 router.get('/protected_things', authModule.auth(), protectedThings.getProtectedData);
