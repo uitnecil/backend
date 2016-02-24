@@ -5,6 +5,7 @@ module.exports.auth = function(role) {
     return function(req, res, next) {
         var token;
         var payLoad;
+        console.log(req);
         if (!req.headers.authorization) {
             return res.status(401).send({message: 'You are not authorized'});
         }
@@ -14,9 +15,9 @@ module.exports.auth = function(role) {
             payLoad = jwt.verify(token, config.jwtSecretKey);
         } catch (e) {
             if (e.name == 'TokenExpiredError') {
-                res.status(401).send({message: 'Token expired' + e.name});
+                res.status(401).send({message: 'Token expired: ' + e.name});
             } else {
-                res.status(401).send({message: 'Authorization failed' + e.name});
+                res.status(401).send({message: 'Authorization failed: ' + e.name});
             }
             return;
         }
@@ -28,6 +29,7 @@ module.exports.auth = function(role) {
                 email: payLoad.sub,
                 role: payLoad.role
             }
+            console.log(req);
 
             next();
         } else {

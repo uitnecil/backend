@@ -1,46 +1,43 @@
-var express = require('express');
+var sharp = require('sharp');
 var fs = require('fs');
 var path = require('path');
-var gm = require('gm').subClass({imageMagick: true}); //
+//var gm = require('gm').subClass({imageMagick: true}); //
 var math = require('math');
-
+var simd = sharp.simd(true);
 
 var pathoffiles = "public/Pictures/";
 var myfiles = [];
 var contentsofdir;
 var a;
-dir = __dirname + '/imgs/'
+var dir = "public/Pictures_redim/";;
 
-var router = express.Router();
+module.exports = {
+    getMyPictures: getMyPictures
+}
 
-router.get('/', function (req, res, next) {
+function getMyPictures(req, res, next) {
     _getmecontentofmypath(function (data) {
         console.log("Data: " + data.toString());
         res.send(data);
+
         console.log("Data was sent");
 
         //convert all photos to smaller sizes
         myfiles.forEach(function (content, index) {
-            gm(path.normalize(pathoffiles + content.filename))
-                .size(function (err, size) {
-                    if (err) {
-                        return console.dir(arguments)
-                    }
-                    //this.resize(math.round(size.width / 20), math.round(size.height / 20), '!')
-                    //uncomment this to convert photos!!!!
-                    //this.resize(math.round(size.width * (72 * 100 / size.height) / 100), math.round(72), '!') // calculate the corect height scaled based on the 24 px width
-                    //this.quality(80)
-                    //this.write(path.normalize(dir + content.filename.toString().split('.')[0] + '_redim.jpg'), function (err) {
-                    //    if (err) return console.dir(arguments)
-                    //    console.log(this.outname + " created  ::  " + arguments[3])
-                    //});
+            sharp(path.normalize(pathoffiles + content.filename))
+                .resize(80)
+                .withMetadata()
+                .quality(90)
+                .toFormat('jpeg')
+                .toFile(path.normalize(dir + content.filename.toString().split('.')[0] + '_redim.jpg'), function (err) {
+                    console.log(err);
                 });
-        })
-        //re-init myfiles array with null
-        myfiles = [];
-
+        });
     });
-});
+//re-init myfiles array with null
+    myfiles = [];
+}
+
 
 /* GET folder listing. */
 function _getmecontentofmypath(callback) {
@@ -57,10 +54,10 @@ function _getmecontentofmypath(callback) {
                         filename: content,
                         filecontent: '', //data,
                         filedate: stats.mtime //last change date of the file
-                    }
+                    };
                     _pushmydata(fileData, index, a, function (dataresult) {
                         a = dataresult;
-                    })
+                    });
                     if (myfiles.length === contentsofdir.length) {
                         callback(a);
                     }
@@ -73,9 +70,9 @@ function _getmecontentofmypath(callback) {
 function _pushmydata(fileData, id, a, callback) {
     var temp;
     myfiles.push(fileData);
-    temp = '<a href="http://localhost:3000/Pictures/' + contentsofdir[id] + '">' + contentsofdir[id] + '</a>';
-    a += id + ' - [' + fileData.filecontent.toString().substring(1, 10) + ']' + " - " + temp + " - " + fileData.filedate + '<br>';
+    //temp = '<a href="http://localhost:3000/Pictures/' + contentsofdir[id] + '">' + contentsofdir[id] + '</a>';
+    temp = '<img src="http://localhost:3000/Pictures_redim/' + fileData.filename.toString().split('.')[0] + '_redim.jpg"' + '>' + ' - [' + fileData.filename.toString().split('.')[0] + '_redim.jpg' + ']'  ;
+    //a += id + ' - [' + fileData.filecontent.toString().substring(1, 10) + ']' + " - " + temp + " - " + fileData.filedate + '<br>';
+    a += temp + " - " + fileData.filedate + id + ' - [' + fileData.filecontent.toString().substring(1, 10) + ']' + '<br>';
     callback(a)
 }
-
-module.exports = router;

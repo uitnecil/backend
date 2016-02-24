@@ -32,7 +32,7 @@ function post(req, res, next) {
                     return next(err);
                 }
 
-                // if no errors occurred on user insert, construct payLoad
+                // if no errors occurred on user insert, construct payLoad in order to generate token based on them
                 payLoad = {
                     sub: user.email,
                     role: user.role
