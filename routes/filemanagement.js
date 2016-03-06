@@ -25,7 +25,7 @@ function getMyPictures(req, res, next) {
 
         //convert all photos to smaller sizes
         myfiles.forEach(function (content, index) {
-            console.log("path checked: ", path.normalize(dir + content.filename.toString().split('.')[0] + '_redim.jpg'));
+            //console.log("path checked: ", path.normalize(dir + content.filename.toString().split('.')[0] + '_redim.jpg'));
             fs.access(path.normalize(dir + content.filename.toString().split('.')[0] + '_redim.jpg'), fs.F_OK, function (err) {
                 //if file doesn't exist, convert it, otherwise just skip it
                 if (err) {
@@ -60,6 +60,7 @@ function _getmecontentofmypath(callback) {
             fs.stat(pathoffiles + contentsofdir[index], function (err, stats) {
                 var fileData = {
                     filename: content,
+                    filenameRe_dimensioned: content.toString().split('.')[0] + "_redim.jpg",
                     filecontent: '', //data,
                     filedate: stats.mtime //last change date of the file
                 };
@@ -67,7 +68,7 @@ function _getmecontentofmypath(callback) {
                     a = dataresult;
                 });
                 if (myfiles.length === contentsofdir.length) {
-                    callback(a);
+                    callback(myfiles);
                 }
             })
             //})

@@ -33,6 +33,11 @@ function post(req,res, next) {
                     //get the Object retrieved from the database
                     user = results.rows[0];
 
+                    if (!user || !user.email || !user.password){
+                            res.status(401).send({message: 'Invalid username or password'});
+                            return;
+                    }
+
                     bcrypt.compare(req.body.password, user.password, function(err, pwdMatch) {
                         var payLoad;
                         if (err) {
@@ -48,7 +53,9 @@ function post(req,res, next) {
                         payLoad= {
                             sub: user.email,
                             role: user.role
-                        }
+                        };
+
+                        delete user.password;
 
                         res.status(200).json({
                             user: user,

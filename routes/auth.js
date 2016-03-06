@@ -5,7 +5,8 @@ module.exports.auth = function(role) {
     return function(req, res, next) {
         var token;
         var payLoad;
-        console.log(req);
+        //console.log(req);
+        console.log('REQ HEADERS', req.headers);
         if (!req.headers.authorization) {
             return res.status(401).send({message: 'You are not authorized'});
         }
