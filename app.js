@@ -41,7 +41,7 @@ router.post('/users', users.post);
 //router.get('/filemanagement', filemanagement); // TODO : add authentication for this route (need massive changes)
 
 //routes auth required
-router.get('/filemanagement', filemanagement.getMyPictures);
+router.get('/filemanagement', authModule.auth() , filemanagement.getMyPictures);
 router.get('/protected_things', authModule.auth(), protectedThings.getProtectedData);
 router.get('/protected_things2', authModule.auth('ADMIN'), protectedThings.getProtectedData);
 router.post('/login', login.post);
