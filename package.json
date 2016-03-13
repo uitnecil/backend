@@ -15,6 +15,7 @@
     "gm": "^1.21.1",
     "jsonwebtoken": "^5.0.1",
     "math": "0.0.3",
+    "mongodb": "^2.1.7",
     "mongoose": "^4.4.4",
     "morgan": "^1.6.1",
     "serve-favicon": "~2.3.0",
