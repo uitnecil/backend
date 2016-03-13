@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+//var activeDB = 'Mongo';
 //var port = 3001;
 
 //unprotected routes
@@ -59,7 +60,6 @@ router = express.Router();
 //routes NO auth required
 router.get('/public_things', publicThings.get);
 router.post('/users', users.post);
-//router.get('/filemanagement', filemanagement); // TODO : add authentication for this route (need massive changes)
 
 //routes auth required
 router.get('/filemanagement', authModule.auth() , filemanagement.getMyPictures);

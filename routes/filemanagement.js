@@ -79,9 +79,7 @@ function _getmecontentofmypath(callback) {
 function _pushmydata(fileData, id, a, callback) {
     var temp;
     myfiles.push(fileData);
-    //temp = '<a href="http://localhost:3000/Pictures/' + contentsofdir[id] + '">' + contentsofdir[id] + '</a>';
-    temp = '<img src="http://localhost:3000/Pictures_redim/' + fileData.filename.toString().split('.')[0] + '_redim.jpg"' + '>' + ' - [' + fileData.filename.toString().split('.')[0] + '_redim.jpg' + ']';
-    //a += id + ' - [' + fileData.filecontent.toString().substring(1, 10) + ']' + " - " + temp + " - " + fileData.filedate + '<br>';
-    a += temp + " - " + fileData.filedate + id + ' - [' + fileData.filecontent.toString().substring(1, 10) + ']' + '<br>';
+    //temp = '<img src="http://localhost:3000/Pictures_redim/' + fileData.filename.toString().split('.')[0] + '_redim.jpg"' + '>' + ' - [' + fileData.filename.toString().split('.')[0] + '_redim.jpg' + ']';
+    //a += temp + " - " + fileData.filedate + id + ' - [' + fileData.filecontent.toString().substring(1, 10) + ']' + '<br>';
     callback(a)
 }

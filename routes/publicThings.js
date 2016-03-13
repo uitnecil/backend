@@ -3,7 +3,7 @@ var config = require('./config.js');
 
 function get(req, res, next) {
     oracledb.getConnection(
-        config.database,
+        config.oracleDB,
         function(err, connection){
             if (err) {
                 return next(err);
