@@ -1,11 +1,11 @@
-var jwt=require('jsonwebtoken');
-var config=require('./config');
+var jwt = require('jsonwebtoken');
+var config = require('./config');
 
-module.exports.auth = function(role) {
-    return function(req, res, next) {
+module.exports.auth = function (role) {
+    return function (req, res, next) {
         var token;
         var payLoad;
-
+        console.log('==============' + req.headers.authorization);
         if (!req.headers.authorization) {
             return res.status(401).send({message: 'You are not authorized'});
         }
@@ -28,8 +28,7 @@ module.exports.auth = function(role) {
             req.user = {
                 email: payLoad.sub,
                 role: payLoad.role
-            }
-
+            };
             next();
         } else {
             res.status(401).send({message: 'You are not authorized'})
