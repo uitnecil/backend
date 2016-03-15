@@ -10,7 +10,6 @@ var myfiles = [];
 var contentsofdir;
 var a;
 var dir = "public/Pictures_redim/";
-;
 
 module.exports = {
     getMyPictures: getMyPictures
@@ -36,7 +35,7 @@ function getMyPictures(req, res, next) {
                         .toFormat('jpeg')
                         .toFile(path.normalize(dir + content.filename.toString().split('.')[0] + '_redim.jpg'), function (err) {
                             console.log(err);
-                        });
+                        })                     ;
                 } else {
                     console.log('no error!');
                 }
@@ -58,18 +57,28 @@ function _getmecontentofmypath(callback) {
 
             //read async way last modified time of the file; once done construct object and push it in myfiles
             fs.stat(pathoffiles + contentsofdir[index], function (err, stats) {
-                var fileData = {
-                    filename: content,
-                    filenameRe_dimensioned: content.toString().split('.')[0] + "_redim.jpg",
-                    filecontent: '', //data,
-                    filedate: stats.mtime //last change date of the file
-                };
-                _pushmydata(fileData, index, a, function (dataresult) {
-                    a = dataresult;
-                });
-                if (myfiles.length === contentsofdir.length) {
-                    callback(myfiles);
-                }
+                //read metadata for each picture
+                sharp(path.normalize(pathoffiles + contentsofdir[index]))
+                  .metadata()
+                  .then(function(metadata) {
+                      //console.log(metadata);
+                      console.log(metadata.toString('utf8'));
+                      var fileData = {
+                          filename: content,
+                          filenameRe_dimensioned: content.toString().split('.')[0] + "_redim.jpg",
+                          filecontent: '', //data,
+                          fileMetadata: metadata,
+                          filedate: stats.mtime //last change date of the file
+
+                      };
+                      _pushmydata(fileData, index, a, function (dataresult) {
+                          a = dataresult;
+                      });
+                      if (myfiles.length === contentsofdir.length) {
+                          callback(myfiles);
+                      }
+                  })
+
             })
             //})
         })

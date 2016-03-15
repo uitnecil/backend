@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var filemanagement = require('./routes/filemanagement');
 var publicThings = require('./routes/publicThings');
-var users = require('./routes/users');
+var users = require('./routes/addUsers');
 var authModule = require('./routes/auth');
 //protected routes
 var protectedThings = require('./routes/protectedThings');
