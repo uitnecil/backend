@@ -67,7 +67,7 @@ function post(req, res, next) {
                             username: user.email,
                             password: user.hashedPassword
                         });
-
+                        console.log(newUserMongo);
                         // call the built-in save method to save to the database
                         newUserMongo.save(function (err) {
                             if (err) throw err;

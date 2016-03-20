@@ -62,7 +62,7 @@ function _getmecontentofmypath(callback) {
                   .metadata()
                   .then(function(metadata) {
                       //console.log(metadata);
-                      console.log(metadata.toString('utf8'));
+                      console.log(metadata.toString('utf8')[1]);
                       var fileData = {
                           filename: content,
                           filenameRe_dimensioned: content.toString().split('.')[0] + "_redim.jpg",
